@@ -8,12 +8,17 @@ import shutil
 import pytz
 import sys
 
+if sys.platform == "win32":
+    import wmi
+
 def get_cpu_model():
     try:
         if sys.platform.startswith("linux") or sys.platform.startswith("darwin"):
             return platform.processor()
         if sys.platform == "win32":
-            return psutil.cpu_info().brand
+            c = wmi.WMI()
+            for processor in c.query("SELECT * FROM Win32_Processor"):
+                return processor.Name
     except Exception as e:
         return f"Error fetching CPU model: {e}"
 
