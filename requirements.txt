@@ -1,3 +1,4 @@
 psutil
 textual
 wmi
+scapy
